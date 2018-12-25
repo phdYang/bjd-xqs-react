@@ -9,15 +9,15 @@ const menuList = [
         children:[
             {
                 title: '按钮',
-                key: '/admin/ui/buttons'
+                key: '/admin/ui/button'
             },
             {
                 title: '弹框',
-                key: '/admin/ui/modals'
+                key: '/admin/ui/modal'
             },
             {
                 title: 'Loading',
-                key: '/admin/ui/loadings'
+                key: '/admin/ui/loading'
             },
             {
                 title: '通知提醒',
@@ -25,11 +25,11 @@ const menuList = [
             },
             {
                 title: '全局Message',
-                key: '/admin/ui/messages'
+                key: '/admin/ui/message'
             },
             {
                 title: 'Tab页签',
-                key: '/admin/ui/tabs'
+                key: '/admin/ui/tab'
             },
             {
                 title: '图片画廊',

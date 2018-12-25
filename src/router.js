@@ -12,6 +12,7 @@ import Notice from './pages/ui/notices'
 import Messages from './pages/ui/messages'
 import ITabs from './pages/ui/tabs'
 import Gallery from './pages/ui/gallery'
+import Carousels from './pages/ui/carousels'
 
 export default class IRouter extends React.Component{
 
@@ -24,13 +25,14 @@ export default class IRouter extends React.Component{
                         <Admin>
                             <Switch>
                                 <Route path="/admin/home" component={Home}/>
-                                <Route path="/admin/ui/buttons" component={Buttons} />
-                                <Route path="/admin/ui/modals" component={modals} />
-                                <Route path="/admin/ui/loadings" component={Loadings} />
+                                <Route path="/admin/ui/button" component={Buttons} />
+                                <Route path="/admin/ui/modal" component={modals} />
+                                <Route path="/admin/ui/loading" component={Loadings} />
                                 <Route path="/admin/ui/notification" component={Notice} />
-                                <Route path="/admin/ui/messages" component={Messages} />
-                                <Route path="/admin/ui/tabs" component={ITabs} />
+                                <Route path="/admin/ui/message" component={Messages} />
+                                <Route path="/admin/ui/tab" component={ITabs} />
                                 <Route path="/admin/ui/gallery" component={Gallery} />
+                                <Route path="/admin/ui/carousel" component={Carousels} />
                                 <Route component={NoMatch}/>
                             </Switch>
                         </Admin>
