@@ -27,7 +27,7 @@ export default class Header extends React.Component{
         axios.jsonp({
             url: 'https://restapi.amap.com/v3/weather/weatherInfo?city='+city+'&key=bd53f6528c5657c7d15afa772cbd4b78'
         }).then((res)=>{
-            if(res.status == '1'){
+            if(res.status === '1'){
                 let data = res.lives[0]
                 this.setState({
                     weather: data.weather,
