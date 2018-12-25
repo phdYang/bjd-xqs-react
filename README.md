@@ -1,6 +1,6 @@
 # studyantd
 > 本项目是我学习react生态来完成管理系统的学习code.<br />
-> 2018-12-25 16:04 学习至5-5 spin组件
+> 2018-12-25 20:11 学习至6-1 antd Form组件之登陆注册
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
