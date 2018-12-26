@@ -83,7 +83,13 @@ class FormRegister extends React.Component{
                         <FormItem label="密码" {...formItemLayout}>
                             {
                                 getFieldDecorator('userPwd', {
-                                    initialValue: ''
+                                    initialValue: '',
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '密码不能为空'
+                                        }
+                                    ]
                                 })(<Input type="password" placeholder="请输入密码" />)
                             }
                         </FormItem>
