@@ -1,6 +1,5 @@
 # studyantd
-> 本项目是我学习react生态来完成管理系统的学习code.<br />
-> 2018-12-26 
+> 本项目是我学习react生态来完成管理系统的学习code.<br />  
 
 
 React全家桶
