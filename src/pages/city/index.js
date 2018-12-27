@@ -52,7 +52,21 @@ export default class City extends React.Component{
     }
 
     handleSubmit = ()=>{
-
+        let cityInfo = this.cityForm.props.form.getFieldsValue();
+        axios.ajax({
+            url:'/city/open',
+            data:{
+                params:cityInfo
+            }
+        }).then((res)=>{
+            if(res.code == '0'){
+                message.success('开通成功');
+                this.setState({
+                    isShowOpenCity:false
+                })
+            }
+        })
+        this.requestList();
     }
 
     render(){
@@ -109,7 +123,8 @@ export default class City extends React.Component{
                     <Button type="primary" onClick={this.handleOpenCity}>开通城市</Button>
                 </Card>
                 <div className="content-wrap">
-                    <Table 
+                    <Table
+                        bordered
                         columns={columns}
                         pagination={this.state.pagination}
                         dataSource={this.state.list}
@@ -125,7 +140,7 @@ export default class City extends React.Component{
                     }}
                     onOk={this.handleSubmit}
                 >
-                    <OpenCityForm />
+                    <OpenCityForm wrappedComponentRef={(inst)=>{this.cityForm=inst;}}/>
                 </Modal>
             </div>
         );
@@ -160,7 +175,7 @@ class FilterForm extends React.Component{
                     {
                         getFieldDecorator('mode')(
                             <Select
-                                style={{ width: 120 }}
+                                style={{ width: 150 }}
                                 placeholder="全部"
                             >
                                 <Option value="">全部</Option>
