@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, Button, Table, Form, DatePicker, Select, Modal, message } from 'antd'
 import axios from './../../axios'
 import Utils from './../../utils/utils'
+import BaseForm from '../../components/BaseForm'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -18,29 +19,67 @@ export default class Order extends React.Component{
         page:1
     }
 
+    formList = [
+        {
+            type:'SELECT',
+            label:'城市',
+            field:'city',
+            placeholder:'全部',
+            initialValue:'1',
+            width:80,
+            list: [
+                { id: '0', name: '全部' }, 
+                { id: '1', name: '北京' }, 
+                { id: '2', name: '天津' }, 
+                { id: '3', name: '上海' }
+            ]
+        },
+        {
+            type: '时间查询'
+        },
+        {
+            type: 'SELECT',
+            label: '订单状态',
+            field:'order_status',
+            placeholder: '全部',
+            initialValue: '1',
+            width: 120,
+            list: [
+                { id: '0', name: '全部' }, 
+                { id: '1', name: '进行中' }, 
+                { id: '2', name: '结束行程' }
+            ]
+        }
+    ]
+
     componentDidMount(){
         this.requestList();
     }
 
+    handleFilter = (params)=>{
+        this.params = params;
+        this.requestList();
+    }
+
     requestList = ()=>{
+        //let _this = this;
+        //axios.requestList(_this, '/order/list',this.params)
         axios.ajax({
             url:'/order/list',
             data:{
-                params:{
-                    page:this.params.page
-                },
+                params:this.params,
                 isShowLoading: true
             }
         }).then((res)=>{
-            let _this = this;
+            //let _this = this;
             this.setState({
                 list: res.result.item_list.map((item,index)=>{
                     item.key = index;
                     return item;
                 }),
                 pagination: Utils.pagination(res,(current)=>{
-                    _this.params.page = current;
-                    _this.requestList();
+                    this.params.page = current;
+                    this.requestList();
                 }),
                 selectedRowKeys:[],
                 selectedItem:null
@@ -186,7 +225,7 @@ export default class Order extends React.Component{
         return (
             <div>
                 <Card>
-                    <FilterForm />
+                    <BaseForm formList={this.formList} filterSubmit={this.handleFilter}/>
                 </Card>
                 <Card style={{marginTop:10}}>
                     <Button type="primary" onClick={this.openOrderDetail}>订单详情</Button>
@@ -238,7 +277,8 @@ export default class Order extends React.Component{
         );
     }
 }
-
+// 表单还是不要封装了
+// 但是封装表单的这个方法很有帮助
 class FilterForm extends React.Component{
 
     render(){
