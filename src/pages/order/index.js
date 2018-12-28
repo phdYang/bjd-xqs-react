@@ -29,7 +29,7 @@ export default class Order extends React.Component{
                 params:{
                     page:this.params.page
                 },
-                isShowLoading: false
+                isShowLoading: true
             }
         }).then((res)=>{
             let _this = this;
