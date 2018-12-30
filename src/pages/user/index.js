@@ -251,8 +251,8 @@ export default class User extends React.Component{
                         this.userForm.props.form.resetFields();
                         this.setState({
                             isVisible:false,
-                            selectedRowKeys:[],
-                            selectedItem:null,
+                            // selectedRowKeys:[],
+                            // selectedItem:null,
                             userInfo:{}
                         })
                     }}
