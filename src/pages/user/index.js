@@ -2,12 +2,17 @@ import React from 'react'
 import { Card, Button, Table, Form, Input, Checkbox,Select,Radio, Icon, message, Modal, DatePicker } from 'antd'
 import axios from './../../axios'
 import Utils from '../../utils/utils'
+import Moment from 'moment'
 
 const FormItem = Form.Item;
+const Option = Select.Option;
+const RadioGroup = Radio.Group;
 
 export default class User extends React.Component{
 
-    state = {}
+    state = {
+        isVisible:false
+    }
 
     params = {
         page:1
@@ -37,7 +42,10 @@ export default class User extends React.Component{
                     pagination: Utils.pagination(res, (current)=>{
                         this.params.page = current;
                         this.requestList();
-                    })
+                    }),
+                    selectedRowKeys:[],
+                    selectedItem:null,
+                    userInfo:{}
                 })
             }
         })
@@ -48,6 +56,87 @@ export default class User extends React.Component{
         this.setState({
             selectedRowKeys,
             selectedItem: record
+        })
+    }
+
+
+    handleOperator = (type)=>{
+        let item = this.state.selectedItem;
+        if(type =='create'){
+            this.setState({
+                title:'创建员工',
+                isVisible:true,
+                type
+            })
+        }else if(type=="edit" || type=='detail'){
+            if(!item){
+                Modal.info({
+                    title: '信息',
+                    content: '请选择一个用户'
+                })
+                return;
+            }
+            this.setState({
+                title:type=='edit'?'编辑用户':'查看详情',
+                isVisible:true,
+                userInfo:item,
+                type
+            })
+        }else if(type=="delete"){
+            if(!item){
+                Modal.info({
+                    title: '信息',
+                    content: '请选择一个用户'
+                })
+                return;
+            }
+            Modal.confirm({
+                title:'确认删除',
+                content:'确定要删除此用户吗？',
+                onCancel:()=>{
+                    this.setState({
+                        selectedRowKeys:[],
+                        selectedItem:null
+                    })
+                },
+                onOk:()=>{
+                    axios.ajax({
+                        url:'/user/delete',
+                        data:{
+                            params:{
+                                id:item.id
+                            }
+                        }
+                    }).then((res)=>{
+                        if(res.code == 0){
+                            this.setState({
+                                isVisible:false
+                            })
+                            this.requestList();
+                        }
+                    })
+                }
+            })
+        }
+
+    }
+
+    handleSubmit = ()=>{
+        let type = this.state.type;
+        let data = this.userForm.props.form.getFieldsValue();
+        axios.ajax({
+            url:type == 'create'?'/user/add':'/user/edit',
+            data:{
+                params:data
+            }
+        }).then((res)=>{
+            if(res.code ==0){
+                this.userForm.props.form.resetFields();
+                this.setState({
+                    isVisible:false
+                })
+                this.requestList();
+            }
         })
     }
 
@@ -118,6 +207,14 @@ export default class User extends React.Component{
             type: 'radio',
             selectedRowKeys
         }
+
+        let footer = {}
+        if(this.state.type == 'detail'){
+            footer = {
+                footer: null
+            }
+        }
+
         return (
             <div>
                 <Card>
@@ -145,6 +242,24 @@ export default class User extends React.Component{
                         }}
                     />
                 </div>
+                <Modal
+                    title={this.state.title}
+                    visible={this.state.isVisible}
+                    onOk={this.handleSubmit}
+                    width={800}
+                    onCancel={()=>{
+                        this.userForm.props.form.resetFields();
+                        this.setState({
+                            isVisible:false,
+                            selectedRowKeys:[],
+                            selectedItem:null,
+                            userInfo:{}
+                        })
+                    }}
+                    {...footer}
+                >
+                    <UserForm userInfo={this.state.userInfo} type={this.state.type} wrappedComponentRef={(inst) => this.userForm = inst }/>
+                </Modal>
             </div>
         );
     }
@@ -164,7 +279,7 @@ class FilterForm extends React.Component{
     render(){
 
         const { getFieldDecorator }  =this.props.form;
-
+        
         return (
             <Form layout="inline">
                 <FormItem label="用户名">
@@ -209,3 +324,86 @@ class FilterForm extends React.Component{
     }
 }
 FilterForm = Form.create({})(FilterForm);
+
+class UserForm extends React.Component{
+
+    getState = (state)=>{
+        return {
+            '1':'咸鱼一条',
+            '2':'风华浪子',
+            '3':'北大才子一枚',
+            '4':'百度FE',
+            '5':'创业者'
+        }[state]
+    }
+
+    render(){
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: {span: 5},
+            wrapperCol: {span: 16}
+        };
+        const userInfo = this.props.userInfo || {};
+        const type = this.props.type;
+        return (
+            <Form layout="horizontal">
+                <FormItem label="姓名" {...formItemLayout}>
+                    {
+                        userInfo && type=='detail'?userInfo.username:
+                        getFieldDecorator('user_name',{
+                            initialValue:userInfo.username
+                        })(
+                            <Input type="text" placeholder="请输入姓名"/>
+                        )
+                    }
+                </FormItem>
+                <FormItem label="性别" {...formItemLayout}>
+                    {
+                        userInfo && type=='detail'?userInfo.sex==1?'男':'女':
+                        getFieldDecorator('sex',{
+                            initialValue:userInfo.sex
+                        })(
+                        <RadioGroup>
+                            <Radio value={1}>男</Radio>
+                            <Radio value={2}>女</Radio>
+                        </RadioGroup>
+                    )}
+                </FormItem>
+                <FormItem label="状态" {...formItemLayout}>
+                    {
+                        userInfo && type=='detail'?this.getState(userInfo.state):
+                        getFieldDecorator('state',{
+                            initialValue:userInfo.state
+                        })(
+                        <Select>
+                            <Option value={1}>咸鱼一条</Option>
+                            <Option value={2}>风华浪子</Option>
+                            <Option value={3}>北大才子一枚</Option>
+                            <Option value={4}>百度FE</Option>
+                            <Option value={5}>创业者</Option>
+                        </Select>
+                    )}
+                </FormItem>
+                <FormItem label="生日" {...formItemLayout}>
+                    {
+                        userInfo && type=='detail'?userInfo.birthday:
+                        getFieldDecorator('birthday',{
+                            initialValue:Moment(userInfo.birthday)
+                        })(
+                        <DatePicker />
+                    )}
+                </FormItem>
+                <FormItem label="联系地址" {...formItemLayout}>
+                    {
+                        userInfo && type=='detail'?userInfo.address:
+                        getFieldDecorator('address',{
+                            initialValue:userInfo.address
+                        })(
+                        <Input.TextArea rows={3} placeholder="请输入联系地址"/>
+                    )}
+                </FormItem>
+            </Form>
+        );
+    }
+}
+UserForm = Form.create({})(UserForm);
