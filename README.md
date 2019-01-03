@@ -1,6 +1,6 @@
 # studyantd
-> 本项目是我学习react生态来完成管理系统的学习code.<br />  
-> 学习至 11-1
+> 本项目是我学习react生态来完成管理系统的学习code.<br />
+> 14-4
 
 React全家桶
 
@@ -201,8 +201,25 @@ q1: map的语法
 - Axios封装
 - Loading处理、错误拦截
 
-注意：
+重点：
 
 - Easy Mock
 
 - MockJs
+
+第七章 EChats
+
+    yarn add echarts echarts-for-react --save
+
+- react-draft-wysiwyg 插件
+- draftjs-to-html插件
+
+    yarn add react-draft-wysiwyg draftjs-to-html
+
+
+
+第八章 权限
+
+- 选择合适的权限模型
+  - 传统的权限模型
+  - RBAC模型（基于角色的访问控制）
