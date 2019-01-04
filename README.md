@@ -1,6 +1,11 @@
 # studyantd
 > 本项目是我学习react生态来完成管理系统的学习code.<br />
-> 14-4
+> <br />
+> Q1:404页面怎么出现
+> Q2:路由如何控制
+> Q3:如何实现登陆
+> Q4:如何更好的实现面包屑
+
 
 React全家桶
 
@@ -223,3 +228,37 @@ q1: map的语法
 - 选择合适的权限模型
   - 传统的权限模型
   - RBAC模型（基于角色的访问控制）
+
+第九章 Redux
+
+Redux基本介绍：
+
+- 单向数据流:从父组件流向子组件，兄弟组件无法共享数据
+- state：React中的状态，是只读对象，不可直接修改
+- Reducer：基本函数，用于对state的业务处理
+- action：普通对象，用于描述事件行为，改变state
+
+    yarn add redux --save
+    
+    yarn add react-redux --save
+
+Redux集成
+
+1. 创建action模块
+2. 创建reducer模块
+3. 创建store模块
+4. 通过connect方法将react组件和redux连接起来
+5. 田间provider作为项目的根组件，用于数据的存储
+
+Redux的调试工具
+
+- 在chrome中安装redux devtools扩展
+- yarn add redux-devtools-extension
+
+总结
+
+- 从UI基础部分到共享单车核心模块的实战
+- 从React过渡到全家桶
+- 从项目简单开发到项目工程化、规模化开发
+- 业务类型涵盖：基础UI、增删改查模块、地图、图表、权限、菜单、公共机制、主题定制
+- 项目开发技巧、调试经验
