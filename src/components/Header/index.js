@@ -11,7 +11,7 @@ class Header extends React.Component{
     componentWillMount(){
 
         this.setState({
-            userName: 'admin'
+            userName: sessionStorage.getItem('userName')
         });
         setInterval(()=>{
             let sysTime = Utils.formateDate(new Date().getTime());
