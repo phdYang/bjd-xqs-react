@@ -5,4 +5,8 @@
 ```
  yarn install
 ```
+然后启动项目：
+```
+ yarn start
+```
 
