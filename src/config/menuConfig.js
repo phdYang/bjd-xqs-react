@@ -1,125 +1,91 @@
 const menuList = [
     {
         title: '首页',
-        key: '/home'
+        key: '/admin/home'
     },
     {
-        title: 'UI',
-        key: '/ui',
-        children: [
+        title: '台账管理',
+        key: '/AccountManager',
+        children:[
             {
-                title: '按钮',
-                key: '/ui/button',
+                title: '传感器管理',
+                key: '/AccountManager/ShowSensor'
             },
             {
-                title: '弹框',
-                key: '/ui/modal',
-            },
-            {
-                title: 'Loading',
-                key: '/ui/loading',
-            },
-            {
-                title: '通知提醒',
-                key: '/ui/notification',
-            },
-            {
-                title: '全局Message',
-                key: '/ui/message',
-            },
-            {
-                title: 'Tab页签',
-                key: '/ui/tab',
-            },
-            {
-                title: '图片画廊',
-                key: '/ui/gallery',
-            },
-            {
-                title: '轮播图',
-                key: '/ui/carousel',
+                title: '设备管理',
+                key: '/AccountManager/ShowDevice'
             }
         ]
     },
     {
-        title: '表单',
-        key: '/form',
-        children: [
+        title:'监测数据管理',
+        key:'/MonitorDataManager',
+        children:[
             {
-                title: '登录',
-                key: '/form/login',
+                title: '监测数据查询',
+                key: '/MonitorDataManager/ShowMonitorData'
             },
             {
-                title: '注册',
-                key: '/form/reg',
+                title: '监测数据检验',
+                key: '/MonitorDataManager/ShowMonitorDataCheck'
             }
         ]
     },
     {
-        title: '表格',
-        key: '/table',
-        children: [
+        title:'工务辅助决策',
+        key:'/DecisionManager',
+        children:[
             {
-                title: '基础表格',
-                key: '/table/basic',
+                title:'监测数据预测',
+                key:'/DecisionManager/PredictManager',
+                children:[
+                    {
+                        title:'梁端伸缩位移预测',
+                        key:'/DecisionManager/PredictManager/showLDSSPredictData'
+                    },
+                    {
+                        title:'钢轨纵向爬行预测',
+                        key:'/DecisionManager/PredictManager/showGGZXPredictData'
+                    },
+                    {
+                        title:'尖轨尖端伸缩预测',
+                        key:'/DecisionManager/PredictManager/showJGJDPredictData'
+                    },
+                    {
+                        title:'钢轨附加应力预测',
+                        key:'/DecisionManager/PredictManager/showGGFJPredictData'
+                    }
+                ]
             },
-            {
-                title: '高级表格',
-                key: '/table/high',
+            { 
+                title:'数据异常报警',
+                key:'/DecisionManager/AlarmManager',
+                children:[
+                    {
+                        title:'报警设置',
+                        key:'/DecisionManager/AlarmManager/ShowAlarmSetting'
+                    },
+                    {
+                        title:'报警查询',
+                        key:'/DecisionManager/AlarmManager/showAlarmLog'
+                    }
+                ]
             }
         ]
     },
     {
-        title: '富文本',
-        key: '/rich'
-    },
-    {
-        title: '城市管理',
-        key: '/city'
-    },
-    {
-        title: '订单管理',
-        key: '/order',
-        btnList: [
+        title:'系统设置',
+        key:'/SystemManager',
+        children:[
             {
-                title: '订单详情',
-                key: 'detail'
+                title:'用户设置',
+                key:'/SystemManager/ShowUser'
             },
             {
-                title: '结束订单',
-                key: 'finish'
+                title:'用户日志查询',
+                key:'/SystemManager/ShowUserLog'
             }
         ]
-    },
-    {
-        title: '员工管理',
-        key: '/user'
-    },
-    {
-        title: '车辆地图',
-        key: '/bikeMap'
-    },
-    {
-        title: '图标',
-        key: '/charts',
-        children: [
-            {
-                title: '柱形图',
-                key: '/charts/bar'
-            },
-            {
-                title: '饼图',
-                key: '/charts/pie'
-            },
-            {
-                title: '折线图',
-                key: '/charts/line'
-            },
-        ]
-    },
-    {
-        title: '权限设置',
-        key: '/permission'
-    },
+    }
 ];
 export default menuList;

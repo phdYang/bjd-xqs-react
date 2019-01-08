@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col} from 'antd'
+import {Row, Col, Modal} from 'antd'
 import './index.less'
 import Utils from '../../utils/utils'
 import axios from '../../axios'
@@ -9,7 +9,6 @@ class Header extends React.Component{
 
 
     componentWillMount(){
-
         this.setState({
             userName: sessionStorage.getItem('userName')
         });
@@ -39,10 +38,25 @@ class Header extends React.Component{
         })
     }
 
+    //退出
+    logout = ()=>{
+        Modal.confirm({
+            title:'退出',
+            content:'确定要退出本系统吗？',
+            cancelText:'取消',
+            okText: '确定',
+            onOk:()=>{
+                sessionStorage.clear();
+                window.location.href='/#/login';
+            }
+        })
+        
+    }
+
     render(){
 
         const menuType = this.props.menuType;
-
+        
         return (
             <div className="header">
                 <Row className="header-top">
@@ -55,7 +69,7 @@ class Header extends React.Component{
                     }
                     <Col span={menuType?18:24}>
                         <span>欢迎，{this.state.userName}</span>
-                        <a href="#">退出</a>
+                        <a onClick={this.logout}>退出</a>
                     </Col>
                 </Row>
                     {
