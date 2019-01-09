@@ -5,6 +5,8 @@ import Login from './pages/login';
 import Admin from './admin';
 import Home from './pages/home';
 import User from './pages/user'
+import UserLog from './pages/userlog'
+
 export default class IRouter extends React.Component{
 
     render(){
@@ -18,6 +20,7 @@ export default class IRouter extends React.Component{
                                 <Switch>
                                     <Route path="/home" component={Home}/>
                                     <Route path='/SystemManager/ShowUser' component={User}/>
+                                    <Route path='/SystemManager/UserLog' component={UserLog}/>
                                     <Redirect to="/home"/>
                                 </Switch>
                             </Admin>

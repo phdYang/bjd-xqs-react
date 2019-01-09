@@ -83,7 +83,7 @@ const menuList = [
             },
             {
                 title:'用户日志查询',
-                key:'/SystemManager/ShowUserLog'
+                key:'/SystemManager/UserLog'
             }
         ]
     }
