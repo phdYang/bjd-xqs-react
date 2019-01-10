@@ -5,7 +5,7 @@ import axios from './../../axios'
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-export default class Sensor extends React.Component{
+export default class Device extends React.Component{
 
     state= {
         list:[],
@@ -16,12 +16,12 @@ export default class Sensor extends React.Component{
     }
 
     componentDidMount(){
-        this.getSensorList();
+        this.getDeviceList();
     }
 
-    getSensorList=()=>{
+    getDeviceList=()=>{
         axios.ajax({
-            url:'/getSensor',
+            url:'/getDevice',
             method:'post',
             data:{}
         }).then((res)=>{
@@ -41,14 +41,14 @@ export default class Sensor extends React.Component{
         console.log(params)
     }
     //弹出表单
-    addSensor=()=>{
+    addDevice=()=>{
         this.setState({
             isVisible:true
         })
     }
     //提交新增用户表单
-    handleAddSensor=()=>{
-        let data = this.sensorForm.props.form.getFieldsValue();
+    handleAddDevice=()=>{
+        let data = this.deviceForm.props.form.getFieldsValue();
         console.log(data);
     }
 
@@ -61,34 +61,29 @@ export default class Sensor extends React.Component{
               key:'seqId',
             }, 
             {
-              title: '传感器编号',
-              dataIndex: 'sensorCode',
-              key: 'sensorCode',
+              title: '设备编号',
+              dataIndex: 'deviceCode',
+              key: 'deviceCode',
             },
             {
-              title: '传感器名称',
-              dataIndex: 'sensorName',
-              key: 'sensorName',
+              title: '设备名称',
+              dataIndex: 'deviceName',
+              key: 'deviceName',
             },
             {
-              title: '检测指标类型',
-              dataIndex: 'typeName',
-              key: 'typeName',
+              title: '设备IP',
+              dataIndex: 'deviceIp',
+              key: 'deviceIp',
             },
             {
-                title: '传感器检测对象',
-                dataIndex: 'targetName',
-                key: 'targetName',
+                title: '设备用途',
+                dataIndex: 'deviceUse',
+                key: 'deviceUse',
             },
             {
-                title: '传感器位置',
-                dataIndex: 'sectionName',
-                key: 'sectionName',
-            },
-            {
-                title: '传感器类型',
-                dataIndex: 'sensorClass',
-                key: 'sensorClass'
+                title: '设备安装时间',
+                dataIndex: 'deviceDate',
+                key: 'deviceDate',
             },
             {
                 title: '操作',
@@ -117,10 +112,10 @@ export default class Sensor extends React.Component{
                     <Button
                         style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
                         type="dashed"
-                        onClick={this.addSensor}
+                        onClick={this.addDevice}
                         icon="plus"
                     >
-                        新增传感器
+                        新增设备
                     </Button>
                     <Table
                         bordered 
@@ -130,19 +125,19 @@ export default class Sensor extends React.Component{
                     />
                 </div>
                 <Modal 
-                    title="增加传感器"
+                    title="增加设备"
                     okText="确认"
                     cancelText="取消"
                     visible={this.state.isVisible}
-                    onOk={this.handleAddSensor}
+                    onOk={this.handleAddDevice}
                     onCancel={()=>{
-                        this.sensorForm.props.form.resetFields();
+                        this.deviceForm.props.form.resetFields();
                         this.setState({
                             isVisible:false,
                         })
                     }}
                 >
-                    <SensorForm wrappedComponentRef={(inst) => this.sensorForm = inst }/>
+                    <DeviceForm wrappedComponentRef={(inst) => this.deviceForm = inst }/>
                 </Modal>
             </div>
         );
@@ -166,51 +161,13 @@ class FilterForm extends React.Component{
 
         return (
             <Form layout="inline">
-                <FormItem label="选择传感器类型">
+                <FormItem label="选择设备名称">
                     {
-                        getFieldDecorator('sensorClass',{
-                            initialValue: '0'
+                        getFieldDecorator('deviceName',{
+                            initialValue: ''
                         })
                         (
-                            <Select style={{ width: 100 }}>
-                                <Option value="0">全部</Option>
-                                <Option value="1">温度</Option>
-                                <Option value="2">应力</Option>
-                                <Option value="3">位移</Option>
-                            </Select>
-                        )
-                    }
-                </FormItem>
-                <FormItem label="选择传感器监测对象">
-                    {
-                        getFieldDecorator('targetName',{
-                            initialValue: '0'
-                        })
-                        (
-                            <Select style={{ width: 100 }}>
-                                <Option value="0">全部</Option>
-                                <Option value="1">钢轨</Option>
-                                <Option value="2">轨道板</Option>
-                                <Option value="2">底座板</Option>
-                                <Option value="2">桥梁</Option>
-                                <Option value="2">环境</Option>
-                            </Select>
-                        )
-                    }
-                </FormItem>
-                <FormItem label="选择传感器位置">
-                    {
-                        getFieldDecorator('sectionName',{
-                            initialValue: '0'
-                        })
-                        (
-                            <Select style={{ width: 100 }}>
-                                <Option value="0">全部</Option>
-                                <Option value="1">辙叉区</Option>
-                                <Option value="2">转折区</Option>
-                                <Option value="3">连接区</Option>
-                                <Option value="4">梁缝区</Option>
-                            </Select>
+                            <Input />
                         )
                     }
                 </FormItem>
@@ -225,7 +182,7 @@ class FilterForm extends React.Component{
 FilterForm = Form.create({})(FilterForm);
 
 // 增加表单
-class SensorForm extends React.Component{
+class DeviceForm extends React.Component{
 
     handleFilterSubmit=()=>{
         let fieldsValue = this.props.form.getFieldsValue();
@@ -248,8 +205,8 @@ class SensorForm extends React.Component{
 
         return (
             <Form layout="horizontal">
-                <FormItem label="传感器名称" {...formItemLayout}>
-                    {getFieldDecorator('sensorName', {
+                <FormItem label="设备名称" {...formItemLayout}>
+                    {getFieldDecorator('deviceName', {
                         rules: [{ required: true ,message:'名称不能为空'}],
                     })(
                         <Input />
@@ -266,7 +223,7 @@ class SensorForm extends React.Component{
         );
     }
 }
-SensorForm = Form.create({})(SensorForm)
+DeviceForm = Form.create({})(DeviceForm)
 
 // 详情表单
 

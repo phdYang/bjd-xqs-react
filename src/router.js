@@ -7,6 +7,9 @@ import Home from './pages/home';
 import User from './pages/user'
 import UserLog from './pages/userlog'
 import Sensor from './pages/sensor'
+import Device from './pages/device'
+import MonitorData from './pages/dataEcharts'
+
 
 export default class IRouter extends React.Component{
 
@@ -23,6 +26,8 @@ export default class IRouter extends React.Component{
                                     <Route path='/SystemManager/ShowUser' component={User}/>
                                     <Route path='/SystemManager/UserLog' component={UserLog}/>
                                     <Route path='/AccountManager/ShowSensor' component={Sensor}/>
+                                    <Route path='/AccountManager/ShowDevice' component={Device}/>
+                                    <Route path='/MonitorDataManager/ShowMonitorData' component={MonitorData}/>
                                     <Redirect to="/home"/>
                                 </Switch>
                             </Admin>

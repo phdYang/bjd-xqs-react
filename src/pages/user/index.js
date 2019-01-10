@@ -146,6 +146,8 @@ export default class User extends React.Component{
                 </div>
                 <Modal 
                     title="增加用户"
+                    okText="确认"
+                    cancelText="取消"
                     visible={this.state.isVisible}
                     onOk={this.handleAddUser}
                     onCancel={()=>{

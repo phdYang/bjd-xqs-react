@@ -27,7 +27,7 @@ const menuList = [
             },
             {
                 title: '监测数据检验',
-                key: '/MonitorDataManager/ShowMonitorDataCheck'
+                key: '/MonitorDataManager/DataCheck'
             }
         ]
     },
