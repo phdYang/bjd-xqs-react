@@ -11,3 +11,4 @@
 ```
 
 > 测试一下github desktop
+> 事实证明 githu desktop也是配置了本地git
