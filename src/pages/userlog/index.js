@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Form, Input, Button, Table, Select, Modal} from 'antd'
+import {Card, Form, Input, Button, Table, Select, Modal, message} from 'antd'
 import axios from './../../axios'
 
 const FormItem = Form.Item;
@@ -9,7 +9,8 @@ export default class UserLog extends React.Component{
 
     state= {
         list:[],
-        isVisible:false
+        isVisible:false,
+        logInfo:{}
     }
     params = {
         page:1
@@ -38,7 +39,47 @@ export default class UserLog extends React.Component{
 
     // 提交查询表单
     handleSubmit=(params)=>{
-        console.log(params)
+        console.log(params);
+        axios.ajax({
+            url:'/getLogByOther',
+            method:'post',
+            data:{
+                params:params
+            }
+        }).then((res)=>{
+            if(res.code == 0){
+                res.result.data.map((item, index) => {
+                    item.key = index;
+                })
+                this.setState({
+                    list: res.result.data
+                })
+            }
+        })
+    }
+    //查看详情
+    handleDetail=(id)=>{
+        //console.log(text)
+        //console.log(record)
+        axios.ajax({
+            url:'/getLogDetail',
+            method:'get',
+            data:{
+                params:{seqId:id}
+            }
+        }).then((res)=>{
+            if(res.code == 0){
+                this.setState({
+                    isVisible:true,
+                    logInfo:res.result.data
+                })
+            }else{
+                message.error('查询用户失败');
+                this.setState({
+                    isVisible:false
+                })
+            }
+        })
     }
 
     render(){
@@ -86,10 +127,10 @@ export default class UserLog extends React.Component{
             {
                 title: '操作',
                 key: 'operation',
-                render(){
+                render:(record)=>{
                     return (
                         <div>
-                            <a>查看详情</a>
+                            <a onClick={()=>this.handleDetail(record.seqId)}>查看详情</a>
                         </div>
                     );
                 }
@@ -110,6 +151,18 @@ export default class UserLog extends React.Component{
                         pagination={true}
                     />
                 </div>
+                <Modal 
+                    title="用户日志详情页"
+                    visible={this.state.isVisible}
+                    onCancel={()=>{
+                        this.setState({
+                            isVisible:false,
+                        })
+                    }}
+                    footer={null}
+                >
+                    <LogDetail logInfo={this.state.logInfo}/>
+                </Modal>
             </div>
         );
     }
@@ -157,7 +210,7 @@ class FilterForm extends React.Component{
                     }
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" style={{ margin: '0 20px' }} onClick={this.handleFilterSubmit}>确定</Button>
+                    <Button type="primary" style={{ margin: '0 20px' }} onClick={this.handleFilterSubmit}>查询</Button>
                     <Button onClick={this.reset}>重置</Button>
                 </FormItem>
             </Form>
@@ -165,3 +218,44 @@ class FilterForm extends React.Component{
     }
 }
 FilterForm = Form.create({})(FilterForm);
+
+//用户日志详情页
+class LogDetail extends React.Component{
+
+    render(){
+        const formItemLayout = {
+            labelCol: {span: 5},
+            wrapperCol: {span: 16}
+        };
+        const logInfo = this.props.logInfo || {};
+        return (
+            <Form layout="horizontal">
+                <FormItem label="ID" {...formItemLayout}>
+                    {logInfo.seqId}
+                </FormItem>
+                <FormItem label="用户编码" {...formItemLayout}>
+                    {logInfo.userCode}
+                </FormItem>
+                <FormItem label="用户名称" {...formItemLayout}>
+                    {logInfo.userName}
+                </FormItem>
+                <FormItem label="角色名称" {...formItemLayout}>
+                    {logInfo.realName}
+                </FormItem>
+                <FormItem label="IP地址" {...formItemLayout}>
+                    {logInfo.ipAdrress}
+                </FormItem>
+                <FormItem label="用户操作" {...formItemLayout}>
+                    {logInfo.userAct}
+                </FormItem>
+                <FormItem label="操作时间" {...formItemLayout}>
+                    {logInfo.actDate}
+                </FormItem>
+                <FormItem label="备注" {...formItemLayout}>
+                    {logInfo.sDesc}
+                </FormItem>
+            </Form>
+        );
+    }
+}
+LogDetail = Form.create({})(LogDetail)

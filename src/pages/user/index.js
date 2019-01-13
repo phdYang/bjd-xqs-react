@@ -141,7 +141,7 @@ export default class User extends React.Component{
             }else{
                 message.error('查询用户失败');
                 this.setState({
-                    isDetailsVisible:false
+                    isEditVisible:false
                 })
             }
         })
