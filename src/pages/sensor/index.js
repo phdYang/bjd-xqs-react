@@ -164,6 +164,7 @@ export default class Sensor extends React.Component{
                         this.setState({
                             isVisible:false
                         })
+                        this.sensorForm.props.form.resetFields();
                     }else{
                         message.error('增加传感器失败');
                         this.setState({

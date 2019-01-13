@@ -86,6 +86,7 @@ export default class User extends React.Component{
                         this.setState({
                             isVisible:false
                         })
+                        this.userForm.props.form.resetFields();
                     }else{
                         message.error('增加用户失败');
                         this.setState({
@@ -166,6 +167,7 @@ export default class User extends React.Component{
                         this.setState({
                             isEditVisible:false
                         })
+                        this.userEdit.props.form.resetFields();
                     }else{
                         message.error('修改用户失败');
                         this.setState({
