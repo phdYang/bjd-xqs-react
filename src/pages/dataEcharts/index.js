@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Form, Input, Button, DatePicker} from 'antd';
+import {Card,Form, Input, Button, DatePicker, Modal, TreeSelect} from 'antd';
 import axios from './../../axios'
 
 import ReactEcharts from 'echarts-for-react';
@@ -12,18 +12,40 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/component/markPoint';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const FormItem = Form.Item;
+const {RangePicker} =  DatePicker;
 export default class MonitorData extends React.Component {
 
     state = {
         list:[],
-        listTest:[]
+        listTest:[],
+        isVisible:false,
+        treeSensorList:[]
     }
 
     componentWillMount(){
-        this.getMonitorData();
-        this.getMonitorDataTest();
+        this.getTreeSensor();
+    }
+    //获取传感器类型列表
+    getTreeSensor=()=>{
+        axios.ajax({
+            url:'/getTreeSensor',
+            method:'post',
+            data:{}
+        }).then((res)=>{
+            if(res.code == 0){
+                res.result.data.map((item, index) => {
+                    item.key = index;
+                })
+                this.setState({
+                    treeSensorList: res.result.data
+                })
+            }
+        })
     }
 
     getMonitorData=()=>{
@@ -119,7 +141,7 @@ export default class MonitorData extends React.Component {
         return (
             <div>
                 <Card title="">
-                    <FilterForm filterSubmit={this.handleSubmit}/>
+                    <FilterForm filterSubmit={this.handleSubmit} treeSensorList={this.state.treeSensorList}/>
                 </Card>
                 <Card title="数据展示" style={{marginTop:10}}>
                     <ReactEcharts
@@ -140,6 +162,7 @@ class FilterForm extends React.Component{
     handleFilterSubmit=()=>{
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.filterSubmit(fieldsValue);
+        console.log(fieldsValue)
     }
 
     reset=()=>{
@@ -149,45 +172,43 @@ class FilterForm extends React.Component{
     render(){
 
         const { getFieldDecorator } = this.props.form;
+        const treeSensorList = this.props.treeSensorList || [];
 
         return (
             <Form layout="inline">
-                <FormItem label="选择传感器类型">
+                <FormItem label="选择传感器" >
                     {
                         getFieldDecorator('sensorItemId',{
                             initialValue: ''
                         })
                         (
-                            <Input />
+                            <TreeSelect  
+                                treeDefaultExpandAll
+                                treeData={treeSensorList}
+                                treeCheckable={true}
+                                
+                                searchPlaceholder='请选择传感器'
+                                style={{width:300}}
+                            />
                         )
                     }
                 </FormItem>
-                <FormItem label="选择传感器">
+                <FormItem label="选择日期范围" >
                     {
-                        getFieldDecorator('sensorId',{
+                        getFieldDecorator('dateRange',{
                             initialValue: ''
                         })
                         (
-                            <Input />
-                        )
-                    }
-                </FormItem>
-                <FormItem label="选择起止时间" >
-                    {
-                        getFieldDecorator('begin_time')(
-                            <DatePicker showTime={true} placeholder="开始时间" format="YYYY-MM-DD HH:mm:ss"/>
-                        )
-                    }
-                </FormItem>
-                <FormItem label="" colon={false} >
-                    {
-                        getFieldDecorator('end_time')(
-                            <DatePicker showTime={true} placeholder="结束时间" format="YYYY-MM-DD HH:mm:ss" />
+                            <RangePicker 
+                                
+                                placeholder={['开始时间', '结束时间']}
+                                
+                            />
                         )
                     }
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" style={{ margin: '0 20px' }} onClick={this.handleFilterSubmit}>确定</Button>
+                    <Button type="primary" style={{ margin: '0 20px' }} onClick={this.handleFilterSubmit}>查询</Button>
                     <Button onClick={this.reset}>重置</Button>
                 </FormItem>
             </Form>
