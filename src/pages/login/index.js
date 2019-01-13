@@ -28,14 +28,6 @@ export default withRouter(class Login extends React.Component{
                 message.error('用户名或密码错误!')
             }
         })
-        // if((userName == 'admin' && userPwd == '123') || (userName == 'yang' && userPwd == 'yang') ){
-        //     message.success('欢迎您,'+userName+'！');
-        //     sessionStorage.setItem('login',true);
-        //     sessionStorage.setItem('userName',userName);
-        //     this.props.history.push('/')
-        // }else{
-        //     message.error('密码或用户名错误!')
-        // }
     }
     
 
@@ -51,9 +43,16 @@ export default withRouter(class Login extends React.Component{
 class FormLogin extends React.Component{
 
     handleSubmit=()=>{
-        console.log(1)
-        let userInfo = this.props.form.getFieldsValue();
-        this.props.handleSubmit(userInfo);
+        this.props.form.validateFieldsAndScroll((err, values)=>{
+            if(err){
+                return
+            }else{
+                console.log(1)
+                let userInfo = this.props.form.getFieldsValue();
+                this.props.handleSubmit(userInfo);
+            }
+        })
+        
     }
 
 

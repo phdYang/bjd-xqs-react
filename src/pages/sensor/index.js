@@ -191,9 +191,9 @@ class FilterForm extends React.Component{
                                 <Option value="0">全部</Option>
                                 <Option value="1">钢轨</Option>
                                 <Option value="2">轨道板</Option>
-                                <Option value="2">底座板</Option>
-                                <Option value="2">桥梁</Option>
-                                <Option value="2">环境</Option>
+                                <Option value="3">底座板</Option>
+                                <Option value="4">桥梁</Option>
+                                <Option value="5">环境</Option>
                             </Select>
                         )
                     }
