@@ -22,12 +22,12 @@ export default class MonitorData extends React.Component {
 
     state = {
         list:[],
-        listTest:[],
         isVisible:false,
         treeSensorList:[]
     }
 
     componentWillMount(){
+        //this.getMonitorData();
         this.getTreeSensor();
     }
     //获取传感器类型列表
@@ -65,39 +65,32 @@ export default class MonitorData extends React.Component {
         })
     }
 
-    // 测试接口  正式不应使用
-    getMonitorDataTest=()=>{
-        axios.ajax({
-            url:'/getMonitorData',
-            method:'post',
-            data:{}
-        }).then((res)=>{
-            if(res.code == 0){
-                res.result.data.map((item, index) => {
-                    item.key = index;
-                })
-                this.setState({
-                    listTest: res.result.data
-                })
-            }
-        })
-    }
 
     getOption() {
-        let md = []
-        let xT = []
         let data = this.state.list;
-        for(let i=0;i<data.length;i++){
-            md.push(data[i].MonitorData)
-            xT.push(i);
+        let len = data.length;
+        let xData = [];
+        let yData = [];
+        let legendData = [];
+        let i = 0;
+        for(i=0;i<len;i++){
+            let name = data[i];
+            let key = Object.keys(name)[0];
+            legendData.push(key);
+            let arrays = name[key];
+            let tpData = []
+            for(let j=0;j<arrays.length;j++){
+                if(i == 0){
+                    xData.push(arrays[j].monitorDate);
+                }                  
+                tpData.push(arrays[j].monitorValue);
+            }
+            let str = { name:key,type:'line',stack:'总量',data: tpData}
+            //console.log(json_d)
+            yData.push(str)
         }
-
-        let mdT = []
-        let temp = this.state.listTest;
-        for(let i=0;i<temp.length;i++){
-            mdT.push(temp[i].MonitorData)
-        }
-        
+        //let str = "{ name:'as',type:'line',stack:'总量',data:"+ yData[0]+"}"
+        console.log(yData)
         let option = {
             title: {
 				text: '铁路线桥隧状态数据显示'
@@ -106,34 +99,38 @@ export default class MonitorData extends React.Component {
                 trigger: 'axis'
             },
             legend:{
-                data:['温度传感器','应力传感器']
+                data:legendData
             },
             xAxis: {
-                data: xT
+                data: xData
             },
             yAxis: {
                 type: 'value'
             },
-            series: [
-                {
-                    name: '温度传感器',
-                    type: 'line',
-                    stack: '总量',
-                    data: md
-                },
-                {
-                    name: '应力传感器',
-                    type: 'line',
-                    stack: '总量',
-                    data: mdT
-                }
-            ]
+            series: yData
         }
         return option;
     }
 
     // 提交表单
-    handleSubmit=()=>{
+    handleSubmit=(params)=>{
+       
+        axios.ajax({
+            url:'/getMonitorData',
+            method:'post',
+            data:{
+                params:params
+            }
+        }).then((res)=>{
+            if(res.code == 0){
+                res.result.data.map((item, index) => {
+                    item.key = index;
+                })
+                this.setState({
+                    list: res.result.data
+                })
+            }
+        })
 
     }
 
@@ -161,8 +158,14 @@ class FilterForm extends React.Component{
 
     handleFilterSubmit=()=>{
         let fieldsValue = this.props.form.getFieldsValue();
-        this.props.filterSubmit(fieldsValue);
-        console.log(fieldsValue)
+        const values = {
+            'sensorItemId':fieldsValue['sensorItemId'],
+            'dataRange':[
+                fieldsValue['dateRange'][0].format('YYYY-MM-DD'),
+                fieldsValue['dateRange'][1].format('YYYY-MM-DD'),
+            ]
+        }
+        this.props.filterSubmit(values);
     }
 
     reset=()=>{
@@ -200,9 +203,7 @@ class FilterForm extends React.Component{
                         })
                         (
                             <RangePicker 
-                                
                                 placeholder={['开始时间', '结束时间']}
-                                
                             />
                         )
                     }
