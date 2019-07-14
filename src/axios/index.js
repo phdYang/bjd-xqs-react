@@ -21,8 +21,8 @@ export default class Axios{
 
     static ajax(options){
  
-        let baseApi = 'https://www.easy-mock.com/mock/5c3445e954d64509bd7982f3/api'
-        //let baseApi = 'http://localhost:8080/bjd-xqs'
+        //let baseApi = 'https://www.easy-mock.com/mock/5c3445e954d64509bd7982f3/api'
+        let baseApi = 'http://localhost:8080/bjd-xqs'
 
         console.log(options.data.params)
         return new Promise((resolve,reject)=>{

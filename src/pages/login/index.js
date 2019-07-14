@@ -3,14 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Card, Form, Input, Icon, Checkbox, Button, message} from 'antd'
 import axios from './../../axios'
 import './index.less'
-import Background from '../login/1.png';
-
-var sectionStyle = {
-    width: "100%",
-    height: "821px",
-   //makesure here is String确保这里是一个字符串，以下是es6写法
-    backgroundImage: `url(${Background})` 
-  };
+import bgImg from '../login/1.png';
 
 const FormItem = Form.Item;
 
@@ -69,7 +62,7 @@ class FormLogin extends React.Component{
         const {getFieldDecorator} = this.props.form;
 
         return (
-            <div className="login" style={sectionStyle}>
+            <div className="login" style={{backgroundImage: `url(${bgImg})` }}>
                 <div className="login-form" >
                     <div className="login-logo">
                         <span>欢迎使用铁路线桥隧状态监测预警系统</span>
