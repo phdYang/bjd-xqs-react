@@ -14,8 +14,8 @@
 
 * 登录界面：
 
-  ![1563120875952](D:\zhaoyangsWork\bjd-xqs-1.0\bjd-xqs-react\doc\1563120875952.png)
+  ![1563120875952](https://github.com/phdYang/bjd-xqs-react/blob/master/doc/imgs/1563120875952.png)
 
-  {% asset_img doc/1563120875952.png  （登录界面 %}
+  {% asset_img https://github.com/phdYang/bjd-xqs-react/blob/master/doc/imgs/1563120875952.png  登录界面 %}
 
   
