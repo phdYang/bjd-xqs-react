@@ -1,5 +1,6 @@
 # bjd-xqs-react
-> 更新了antd-bjd-xqs全部的架构重新上线
+> 本项目为springboot-bjd-xqs的前端项目
+采用的技术栈为 React + ant design + axios + router + webpack
 
 * 拉下来之后先安装依赖：
 ```
@@ -9,6 +10,8 @@
 ```
  yarn start
 ```
+具体项目情况如图
 
-> 测试一下github desktop
-> 事实证明 githu desktop也是配置了本地git
+* 登录界面：
+
+  ![1563120875952](D:\zhaoyangsWork\bjd-xqs-1.0\bjd-xqs-react\doc\1563120875952.png)

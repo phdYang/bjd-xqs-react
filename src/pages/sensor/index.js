@@ -73,6 +73,7 @@ export default class Sensor extends React.Component{
             method:'post',
             data:{}
         }).then((res)=>{
+            console.log(res)
             if(res.code == 0){
                 res.result.data.map((item, index) => {
                     item.key = index;
