@@ -13,7 +13,7 @@ class SensorEdit extends React.Component{
         typeList:[],
         targetList:[],
         sectionList:[],
-        sensorClassList:[],
+        //sensorClassList:[],
         //sensorInfo:{},
         //isDetailsVisible:false,
         //isEditVisible:false,
@@ -22,32 +22,33 @@ class SensorEdit extends React.Component{
     }
 
     componentDidMount(){
-        let id = this.props.location.id;
+        
+        let id = this.props.match.params.id
         this.handleEdit(id)
         this.getTypeList();
         this.getTargetList();
         this.getSectionList();
-        this.getSensorClass();
+        //this.getSensorClass();
     }
   
-
-    //获取传感器类型列表
-    getSensorClass=()=>{
-        axios.ajax({
-            url:'/getSensorClass',
-            method:'post',
-            data:{}
-        }).then((res)=>{
-            if(res.code == 0){
-                res.result.data.map((item, index) => {
-                    item.key = index;
-                })
-                this.setState({
-                    sensorClassList: res.result.data
-                })
-            }
-        })
-    }
+    //TODO 暂时注释
+    // //获取传感器类型列表
+    // getSensorClass=()=>{
+    //     axios.ajax({
+    //         url:'/getSensorClass',
+    //         method:'post',
+    //         data:{}
+    //     }).then((res)=>{
+    //         if(res.code == 0){
+    //             res.result.data.map((item, index) => {
+    //                 item.key = index;
+    //             })
+    //             this.setState({
+    //                 sensorClassList: res.result.data
+    //             })
+    //         }
+    //     })
+    // }
     //获取检测指标类型列表
     getTypeList=()=>{
         axios.ajax({
@@ -108,7 +109,7 @@ class SensorEdit extends React.Component{
             url:'/getSensorEdit',
             method:'get',
             data:{
-                params:{seqId:id}
+                params:{sensorId:id}
             }
         }).then((res)=>{
             if(res.code == 0){
@@ -148,9 +149,10 @@ class SensorEdit extends React.Component{
                 return
             }else{
                 let data = this.props.form.getFieldsValue();
+                console.log(data)
                 axios.ajax({
                     url:'/editSensor',
-                    method:'get',
+                    method:'POST',
                     data:{
                         params:data
                     }
@@ -211,16 +213,24 @@ class SensorEdit extends React.Component{
         const typeList = this.state.typeList || [];
         const targetList = this.state.targetList || [];
         const sectionList = this.state.sectionList || [];
-        const sensorClassList = this.state.sensorClassList || [];
+        //const sensorClassList = this.state.sensorClassList || [];
         const sensorEdit = this.state.sensorEdit || {};
         return (
-            <Card title="传感器编辑页" extra={<a href="http://localhost:3000/#/AccountManager/ShowSensor">返回</a>}>
+            <Card title="传感器编辑页" extra={<a href="#/AccountManager/ShowSensor">返回</a>}>
             <Form layout="horizontal">
                 <FormItem label="ID" {...formItemLayout}>
-                    {sensorEdit.seqId}
+                    {getFieldDecorator('sensorId', {
+                        initialValue:sensorEdit.sensorId
+                    })(
+                        <Input disabled/>
+                    )}
                 </FormItem>
                 <FormItem label="传感器编码" {...formItemLayout}>
-                    {sensorEdit.sensorCode}
+                    {getFieldDecorator('sensorCode', {
+                        initialValue:sensorEdit.sensorCode
+                    })(
+                        <Input disabled/>
+                    )}
                 </FormItem>
                 <FormItem label="传感器名称" {...formItemLayout}>
                     {getFieldDecorator('sensorName', {
@@ -232,13 +242,13 @@ class SensorEdit extends React.Component{
                 </FormItem>
                 <FormItem label="通道编码" {...formItemLayout}>
                     {getFieldDecorator('channelCode', {
-                        initialValue:sensorEdit.sensorName,
+                        initialValue:sensorEdit.channelCode,
                         rules: [{ required: true ,message:'通道编码不能为空'}],
                     })(
                         <Input />
                     )}
                 </FormItem>
-                <FormItem label="传感器类型" {...formItemLayout}>
+                {/* <FormItem label="传感器类型" {...formItemLayout}>
                     {
                         getFieldDecorator('sensorClass',{
                             rules: [{ required: true ,message:'传感器类型不能为空'}],
@@ -249,10 +259,11 @@ class SensorEdit extends React.Component{
                             </Select>
                         )
                     }
-                </FormItem>
+                </FormItem> */}
                 <FormItem label="检测指标类型" {...formItemLayout}>
                     {
-                        getFieldDecorator('typeName',{
+                        getFieldDecorator('typeId',{
+                            initialValue: sensorEdit.typeId+'',
                             rules: [{ required: true ,message:'检测指标类型不能为空'}],
                         })
                         (
@@ -264,7 +275,8 @@ class SensorEdit extends React.Component{
                 </FormItem>
                 <FormItem label="监测对象" {...formItemLayout}>
                     {
-                        getFieldDecorator('targetName',{
+                        getFieldDecorator('targetId',{
+                            initialValue: sensorEdit.targetId+'',
                             rules: [{ required: true ,message:'监测对象不能为空'}],
                         })
                         (
@@ -276,7 +288,8 @@ class SensorEdit extends React.Component{
                 </FormItem>
                 <FormItem label="传感器位置" {...formItemLayout}>
                     {
-                        getFieldDecorator('sectionName',{
+                        getFieldDecorator('sectionId',{
+                            initialValue: sensorEdit.sectionId+'',
                             rules: [{ required: true ,message:'传感器位置不能为空'}],
                         })
                         (

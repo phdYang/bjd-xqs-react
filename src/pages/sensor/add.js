@@ -13,7 +13,7 @@ class SensorForm extends React.Component{
         typeList:[],
         targetList:[],
         sectionList:[],
-        sensorClassList:[],
+        //sensorClassList:[],
         //sensorInfo:{},
         //isDetailsVisible:false,
         //isEditVisible:false,
@@ -27,7 +27,7 @@ class SensorForm extends React.Component{
         this.getTypeList();
         this.getTargetList();
         this.getSectionList();
-        this.getSensorClass();
+        //this.getSensorClass();
     }
   
 
@@ -149,6 +149,7 @@ class SensorForm extends React.Component{
                 })
                 //重新查询
                 this.props.history.push('/AccountManager/ShowSensor')
+                
             }
         }); 
     }
@@ -192,8 +193,15 @@ class SensorForm extends React.Component{
         const sensorClassList = this.state.sensorClassList || [];
 
         return (
-            <Card title="传感器增加页" extra={<a href="http://localhost:3000/#/AccountManager/ShowSensor">返回</a>}>
+            <Card title="传感器增加页" extra={<a href="#/AccountManager/ShowSensor">返回</a>}>
             <Form layout="horizontal">
+                <FormItem label="传感器编号" {...formItemLayout}>
+                    {getFieldDecorator('sensorCode', {
+                        rules: [{ required: true ,message:'编码不能为空'}],
+                    })(
+                        <Input />
+                    )}
+                </FormItem>
                 <FormItem label="传感器名称" {...formItemLayout}>
                     {getFieldDecorator('sensorName', {
                         rules: [{ required: true ,message:'名称不能为空'}],
@@ -208,7 +216,7 @@ class SensorForm extends React.Component{
                         <Input />
                     )}
                 </FormItem>
-                <FormItem label="传感器类型" {...formItemLayout}>
+                {/* <FormItem label="传感器类型" {...formItemLayout}>
                     {
                         getFieldDecorator('sensorClass',{
                             initialValue: '0'
@@ -219,10 +227,10 @@ class SensorForm extends React.Component{
                             </Select>
                         )
                     }
-                </FormItem>
+                </FormItem> */}
                 <FormItem label="检测指标类型" {...formItemLayout}>
                     {
-                        getFieldDecorator('typeName',{
+                        getFieldDecorator('typeId',{
                             initialValue: '1'
                         })
                         (
@@ -234,7 +242,7 @@ class SensorForm extends React.Component{
                 </FormItem>
                 <FormItem label="监测对象" {...formItemLayout}>
                     {
-                        getFieldDecorator('targetName',{
+                        getFieldDecorator('targetId',{
                             initialValue: '1'
                         })
                         (
@@ -246,7 +254,7 @@ class SensorForm extends React.Component{
                 </FormItem>
                 <FormItem label="传感器位置" {...formItemLayout}>
                     {
-                        getFieldDecorator('sectionName',{
+                        getFieldDecorator('sectionId',{
                             initialValue: '1'
                         })
                         (

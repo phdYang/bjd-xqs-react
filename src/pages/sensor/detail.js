@@ -11,7 +11,8 @@ class SensorDetail extends React.Component{
     }
 
     componentDidMount(){
-        let id = this.props.location.id;
+        //let id = this.props.location.id;
+        let id = this.props.match.params.id
         this.handleDetail(id)
         
     }
@@ -22,7 +23,7 @@ class SensorDetail extends React.Component{
             url:'/getSensorDetail',
             method:'get',
             data:{
-                params:{seqId:id}
+                params:{sensorId:id}
             }
         }).then((res)=>{
             if(res.code == 0){
@@ -58,11 +59,11 @@ class SensorDetail extends React.Component{
         return (
             
             
-            <Card title="传感器详情页" extra={<a href="http://localhost:3000/#/AccountManager/ShowSensor">返回</a>}>
+            <Card title="传感器详情页" extra={<a href="#/AccountManager/ShowSensor">返回</a>}>
             <Form layout="horizontal">
                 
                 <FormItem label="ID" {...formItemLayout}>
-                    {sensorInfo.seqId}
+                    {sensorInfo.sensorId}
                 </FormItem>
                 <FormItem label="传感器编码" {...formItemLayout}>
                     {sensorInfo.sensorCode}
@@ -74,7 +75,8 @@ class SensorDetail extends React.Component{
                     {sensorInfo.channelCode}
                 </FormItem>
                 <FormItem label="传感器类型" {...formItemLayout}>
-                    {sensorInfo.sensorClass}
+                    {/* {sensorInfo.sensorClass} */}
+                    {'光纤光栅传感器'}
                 </FormItem>
                 <FormItem label="检测指标类型" {...formItemLayout}>
                     {sensorInfo.typeName}
