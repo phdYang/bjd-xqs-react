@@ -69,124 +69,15 @@ export default class Device extends React.Component{
         // })
         this.props.history.push('/AccountManager/deviceAdd')
     }
-    // //提交新增表单
-    // handleAddDevice=()=>{
-    //     this.deviceForm.props.form.validateFieldsAndScroll((err, values)=>{
-    //         if(err){
-    //             return
-    //         }else{
-    //             let data = this.deviceForm.props.form.getFieldsValue();
-    //             console.log(data);
-    //             axios.ajax({
-    //                 url:'/addDevice',
-    //                 method:'get',
-    //                 data:{
-    //                     params:data
-    //                 }
-    //             }).then((res)=>{
-    //                 if(res.code == 0){
-    //                     message.success('增加成功');
-    //                     this.setState({
-    //                         isVisible:false
-    //                     })
-    //                     this.deviceForm.props.form.resetFields();
-    //                 }else{
-    //                     message.error('增加失败');
-    //                     this.setState({
-    //                         isVisible:false
-    //                     })
-    //                 }
-    //             })
-    //             //重新查询所有用户列表
-    //             this.getDeviceList()
-    //         }
-    //     });      
-    // }
-    //
+    
     //查看详情
     handleDetail=(id)=>{
         this.props.history.push('/AccountManager/deviceDetail/2');
-        //console.log(text)
-        //console.log(record)
-        // axios.ajax({
-        //     url:'/getDeviceDetail',
-        //     method:'get',
-        //     data:{
-        //         params:{seqId:id}
-        //     }
-        // }).then((res)=>{
-        //     if(res.code == 0){
-        //         this.setState({
-        //             isDetailsVisible:true,
-        //             deviceInfo:res.result.data
-        //         })
-        //     }else{
-        //         message.error('查询失败');
-        //         this.setState({
-        //             isDetailsVisible:false
-        //         })
-        //     }
-        // })
     }
     //编辑
     handleEdit=(id)=>{
-        
         this.props.history.push('/AccountManager/deviceEdit/2');
-        //this.props.history.push({ pathname : '/AccountManager/edit' ,query : { id: id} });
-        // axios.ajax({
-        //     url:'/getDeviceEdit',
-        //     method:'get',
-        //     data:{
-        //         params:{seqId:id}
-        //     }
-        // }).then((res)=>{
-        //     if(res.code == 0){
-        //         this.props.history.push('/AccountManager/edit');
-        //         this.setState({
-        //             //isEditVisible:true,
-        //             deviceEdit:res.result.data
-        //         })
-        //     }else{
-        //         message.error('查询失败');
-        //         this.setState({
-        //             isEditVisible:false
-        //         })
-        //     }
-        // })
     }
-    // //提交编辑用户
-    // handleEditDevice=()=>{
-    //     this.deviceEditForm.props.form.validateFieldsAndScroll((err, values)=>{
-    //         if(err){
-    //             return
-    //         }else{
-    //             let data = this.deviceEditForm.props.form.getFieldsValue();
-                
-    //             axios.ajax({
-    //                 url:'/editDevice',
-    //                 method:'get',
-    //                 data:{
-    //                     params:data
-    //                 }
-    //             }).then((res)=>{
-    //                 if(res.code == 0){
-    //                     message.success('修改成功');
-    //                     this.setState({
-    //                         isEditVisible:false
-    //                     })
-    //                     this.deviceEditForm.props.form.resetFields();
-    //                 }else{
-    //                     message.error('修改失败');
-    //                     this.setState({
-    //                         isEditVisible:false
-    //                     })
-    //                 }
-    //             })
-    //             //重新查询所有用户列表
-    //             this.getDeviceList()
-    //         }
-    //     });  
-    // }
 
     //删除
     handleDel=(id)=>{
@@ -220,8 +111,8 @@ export default class Device extends React.Component{
         const columns = [
             {
               title:'ID',
-              dataIndex:'seqId',
-              key:'seqId',
+              dataIndex:'deviceId',
+              key:'deviceId',
             }, 
             {
               title: '设备编号',
