@@ -23,6 +23,11 @@ export default class Device extends React.Component{
         this.getDeviceList();
     }
 
+    // componentDidUpdate(){
+    //     this.getDeviceList();
+    //     console.log('aaa')
+    // }
+
     getDeviceList=()=>{
         axios.ajax({
             url:'/getDevice',
@@ -69,11 +74,11 @@ export default class Device extends React.Component{
     
     //查看详情
     handleDetail=(id)=>{
-        this.props.history.push('/AccountManager/deviceDetail/2');
+        this.props.history.push('/AccountManager/deviceDetail/'+id);
     }
     //编辑
     handleEdit=(id)=>{
-        this.props.history.push('/AccountManager/deviceEdit/2');
+        this.props.history.push('/AccountManager/deviceEdit/'+id);
     }
 
     //删除
@@ -89,7 +94,7 @@ export default class Device extends React.Component{
                     method:'get',
                     data:{
                         params:{
-                            seqId:id
+                            deviceId:id
                         }
                     }
                 }).then((res)=>{
@@ -132,9 +137,24 @@ export default class Device extends React.Component{
                 key: 'deviceUse',
             },
             {
+                title: '仪器频率',
+                dataIndex: 'deviceFre',
+                key: 'deviceFre',
+            },
+            {
+                title: '通道数',
+                dataIndex: 'channelCount',
+                key: 'channelCount',
+            },
+            {
                 title: '设备安装时间',
                 dataIndex: 'deviceDate',
                 key: 'deviceDate',
+            },
+            {
+                title: '备注',
+                dataIndex: 'sdesc',
+                key: 'sdesc',
             },
             {
                 title: '操作',
@@ -142,11 +162,11 @@ export default class Device extends React.Component{
                 render:(record)=>{
                     return (
                         <div>
-                            <a onClick={()=>this.handleDetail(record.seqId)}>查看详情</a>
+                            <a onClick={()=>this.handleDetail(record.deviceId)}>查看详情</a>
                             <span style={{marginLeft:5,marginRight:5}}>|</span>
-                            <a onClick={()=>this.handleEdit(record.seqId)}>编辑</a>
+                            <a onClick={()=>this.handleEdit(record.deviceId)}>编辑</a>
                             <span style={{marginLeft:5,marginRight:5}}>|</span>
-                            <a onClick={()=>this.handleDel(record.seqId)}>删除</a>
+                            <a onClick={()=>this.handleDel(record.deviceId)}>删除</a>
                         </div>
                     );
                 }

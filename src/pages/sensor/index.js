@@ -32,6 +32,7 @@ export default class Sensor extends React.Component{
         //this.getSensorClass();
     }
 
+
     getSensorList=()=>{
         axios.ajax({
             url:'/getSensor',

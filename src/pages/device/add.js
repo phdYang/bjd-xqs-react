@@ -109,19 +109,19 @@ class DeviceForm extends React.Component{
                         )}
                     </FormItem>
                     <FormItem label="通道数" {...formItemLayout}>
-                        {getFieldDecorator('ChannelCount', {
+                        {getFieldDecorator('channelCount', {
                             rules: [{ required: true ,message:'通道数不能为空'}],
                         })(
                             <InputNumber />
                         )}
                     </FormItem>
-                    <Form.Item label="设备安装时间" {...formItemLayout}>
+                    <FormItem label="设备安装时间" {...formItemLayout}>
                         {getFieldDecorator('deviceDate',{
                             rules: [{ required: true ,message:'时间不能为空'}],
                         })(<DatePicker placeholder='请选择时间'/>)}
-                    </Form.Item>
+                    </FormItem>
                     <FormItem label="备注" {...formItemLayout}>
-                        {getFieldDecorator('sDesc', {
+                        {getFieldDecorator('sdesc', {
                             
                         })(
                             <Input placeholder='备注随意'/>

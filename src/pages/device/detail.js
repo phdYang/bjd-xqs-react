@@ -12,7 +12,7 @@ class DeviceDetail extends React.Component{
     }
 
     componentDidMount(){
-        let id = this.props.location.id;
+        let id = this.props.match.params.id
         this.handleDetail(id)
     }
 
@@ -22,7 +22,7 @@ class DeviceDetail extends React.Component{
             url:'/getDeviceDetail',
             method:'get',
             data:{
-                params:{seqId:id}
+                params:{deviceId:id}
             }
         }).then((res)=>{
             if(res.code == 0){
@@ -54,7 +54,7 @@ class DeviceDetail extends React.Component{
             <Card title="设备详情页" extra={<a href="#/AccountManager/ShowDevice">返回</a>}>
             <Form layout="horizontal">
                 <FormItem label="ID" {...formItemLayout}>
-                    {deviceInfo.seqId}
+                    {deviceInfo.deviceId}
                 </FormItem>
                 <FormItem label="设备编号" {...formItemLayout}>
                     {deviceInfo.deviceCode}
@@ -68,11 +68,17 @@ class DeviceDetail extends React.Component{
                 <FormItem label="设备用途" {...formItemLayout}>
                     {deviceInfo.deviceUse}
                 </FormItem>
+                <FormItem label="仪器频率" {...formItemLayout}>
+                    {deviceInfo.deviceFre}
+                </FormItem>
+                <FormItem label="通道数" {...formItemLayout}>
+                    {deviceInfo.channelCount}
+                </FormItem>
                 <FormItem label="安装时间" {...formItemLayout}>
                     {deviceInfo.deviceDate}
                 </FormItem>
                 <FormItem label="备注" {...formItemLayout}>
-                    {deviceInfo.sDesc}
+                    {deviceInfo.sdesc}
                 </FormItem>
             </Form>
             </Card>

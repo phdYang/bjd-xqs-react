@@ -1,6 +1,9 @@
 import React from 'react'
-import {Card, Form, Input, Button, Table, Select, Modal, message} from 'antd'
+import {Card, Form, Input, Button, Table, Select, Modal, message, DatePicker, InputNumber} from 'antd'
 import axios from './../../axios'
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -13,7 +16,7 @@ class DeviceEdit extends React.Component{
     }
 
     componentDidMount(){
-        let id = this.props.location.id;
+        let id = this.props.match.params.id
         this.handleEdit(id)
     }
 
@@ -24,7 +27,8 @@ class DeviceEdit extends React.Component{
                 return
             }else{
                 let data = this.props.form.getFieldsValue();
-                
+                data['deviceDate'] = data['deviceDate'].format('YYYY-MM-DD HH:mm:ss')
+
                 axios.ajax({
                     url:'/editDevice',
                     method:'get',
@@ -60,7 +64,7 @@ class DeviceEdit extends React.Component{
             url:'/getDeviceEdit',
             method:'get',
             data:{
-                params:{seqId:id}
+                params:{deviceId:id}
             }
         }).then((res)=>{
             if(res.code == 0){
@@ -111,10 +115,18 @@ class DeviceEdit extends React.Component{
             <Card title="设备编辑页" extra={<a href="#/AccountManager/ShowDevice">返回</a>}>
             <Form layout="horizontal">
                 <FormItem label="ID" {...formItemLayout}>
-                    {deviceEdit.seqId}
+                    {getFieldDecorator('deviceId', {
+                        initialValue:deviceEdit.deviceId
+                    })(
+                        <Input disabled/>
+                    )}
                 </FormItem>
                 <FormItem label="设备编号" {...formItemLayout}>
-                    {deviceEdit.deviceCode}
+                {getFieldDecorator('deviceCode', {
+                        initialValue:deviceEdit.deviceCode
+                    })(
+                        <Input disabled/>
+                    )}
                 </FormItem>
                 <FormItem label="设备名称" {...formItemLayout}>
                     {getFieldDecorator('deviceName', {
@@ -140,9 +152,31 @@ class DeviceEdit extends React.Component{
                         <Input />
                     )}
                 </FormItem>
+                <FormItem label="仪器频率" {...formItemLayout}>
+                        {getFieldDecorator('deviceFre', {
+                            initialValue:deviceEdit.deviceFre,
+                            rules: [{ required: true ,message:'频率不能为空'}],
+                        })(
+                            <InputNumber />
+                        )}
+                </FormItem>
+                <FormItem label="通道数" {...formItemLayout}>
+                        {getFieldDecorator('channelCount', {
+                            initialValue:deviceEdit.channelCount,
+                            rules: [{ required: true ,message:'通道数不能为空'}],
+                        })(
+                            <InputNumber />
+                        )}
+                </FormItem>
+                <FormItem label="设备安装时间" {...formItemLayout}>
+                        {getFieldDecorator('deviceDate',{
+                            initialValue:moment(deviceEdit.deviceDate),
+                            rules: [{ required: true ,message:'时间不能为空'}],
+                        })(<DatePicker placeholder='请选择时间'/>)}
+                </FormItem>
                 <FormItem label="备注" {...formItemLayout}>
-                    {getFieldDecorator('sDesc', {
-                        initialValue:deviceEdit.sDesc,
+                    {getFieldDecorator('sdesc', {
+                        initialValue:deviceEdit.sdesc,
                     })(
                         <Input placeholder='备注随意'/>
                     )}
