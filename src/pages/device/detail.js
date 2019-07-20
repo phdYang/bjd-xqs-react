@@ -51,7 +51,7 @@ class DeviceDetail extends React.Component{
         };
         const deviceInfo = this.state.deviceInfo || {};
         return (
-            <Card title="设备详情页" extra={<a href="http://localhost:3000/#/AccountManager/ShowDevice">返回</a>}>
+            <Card title="设备详情页" extra={<a href="#/AccountManager/ShowDevice">返回</a>}>
             <Form layout="horizontal">
                 <FormItem label="ID" {...formItemLayout}>
                     {deviceInfo.seqId}

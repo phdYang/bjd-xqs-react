@@ -1,6 +1,9 @@
 import React from 'react'
-import {Card, Form, Input, Button, Table, Select, Modal, message} from 'antd'
+import {Card, Form, Input, Button, Table, Select, Modal, message,DatePicker, InputNumber} from 'antd'
 import axios from './../../axios'
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -13,7 +16,7 @@ class DeviceForm extends React.Component{
                 return
             }else{
                 let data = this.props.form.getFieldsValue();
-                //console.log('add:'+data);
+                data['deviceDate'] = data['deviceDate'].format('YYYY-MM-DD HH:mm:ss')
                 axios.ajax({
                     url:'/addDevice',
                     method:'get',
@@ -75,18 +78,11 @@ class DeviceForm extends React.Component{
         }
 
         return (
-            <Card title="设备增加页" extra={<a href="http://localhost:3000/#/AccountManager/ShowDevice">返回</a>}>
+            <Card title="设备增加页" extra={<a href="#/AccountManager/ShowDevice">返回</a>}>
                 <Form layout="horizontal">
                     <FormItem label="设备名称" {...formItemLayout}>
                         {getFieldDecorator('deviceName', {
                             rules: [{ required: true ,message:'名称不能为空'}],
-                        })(
-                            <Input />
-                        )}
-                    </FormItem>
-                    <FormItem label="设备IP" {...formItemLayout}>
-                        {getFieldDecorator('deviceIp', {
-                            rules: [{ required: true ,message:'设备IP不能为空'}],
                         })(
                             <Input />
                         )}
@@ -98,6 +94,32 @@ class DeviceForm extends React.Component{
                             <Input />
                         )}
                     </FormItem>
+                    <FormItem label="设备IP" {...formItemLayout}>
+                        {getFieldDecorator('deviceIp', {
+                            rules: [{ required: true ,message:'设备IP不能为空'}],
+                        })(
+                            <Input />
+                        )}
+                    </FormItem>
+                    <FormItem label="仪器频率" {...formItemLayout}>
+                        {getFieldDecorator('deviceFre', {
+                            rules: [{ required: true ,message:'频率不能为空'}],
+                        })(
+                            <InputNumber />
+                        )}
+                    </FormItem>
+                    <FormItem label="通道数" {...formItemLayout}>
+                        {getFieldDecorator('ChannelCount', {
+                            rules: [{ required: true ,message:'通道数不能为空'}],
+                        })(
+                            <InputNumber />
+                        )}
+                    </FormItem>
+                    <Form.Item label="设备安装时间" {...formItemLayout}>
+                        {getFieldDecorator('deviceDate',{
+                            rules: [{ required: true ,message:'时间不能为空'}],
+                        })(<DatePicker placeholder='请选择时间'/>)}
+                    </Form.Item>
                     <FormItem label="备注" {...formItemLayout}>
                         {getFieldDecorator('sDesc', {
                             

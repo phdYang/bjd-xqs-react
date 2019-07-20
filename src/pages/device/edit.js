@@ -108,7 +108,7 @@ class DeviceEdit extends React.Component{
         const deviceEdit = this.state.deviceEdit || {};
 
         return (
-            <Card title="设备编辑页" extra={<a href="http://localhost:3000/#/AccountManager/ShowDevice">返回</a>}>
+            <Card title="设备编辑页" extra={<a href="#/AccountManager/ShowDevice">返回</a>}>
             <Form layout="horizontal">
                 <FormItem label="ID" {...formItemLayout}>
                     {deviceEdit.seqId}
