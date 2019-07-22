@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card,Form, Input, Button, DatePicker, Modal, TreeSelect} from 'antd';
 import axios from './../../axios'
-
+import qs from 'qs'
 import ReactEcharts from 'echarts-for-react';
 // import echarts from 'echarts'
 import echarts from 'echarts/lib/echarts'
@@ -48,22 +48,22 @@ export default class MonitorData extends React.Component {
         })
     }
 
-    getMonitorData=()=>{
-        axios.ajax({
-            url:'/getMonitorData',
-            method:'post',
-            data:{}
-        }).then((res)=>{
-            if(res.code == 0){
-                res.result.data.map((item, index) => {
-                    item.key = index;
-                })
-                this.setState({
-                    list: res.result.data
-                })
-            }
-        })
-    }
+    // getMonitorData=()=>{
+    //     axios.ajax({
+    //         url:'/getMonitorData',
+    //         method:'post',
+    //         data:{}
+    //     }).then((res)=>{
+    //         if(res.code == 0){
+    //             res.result.data.map((item, index) => {
+    //                 item.key = index;
+    //             })
+    //             this.setState({
+    //                 list: res.result.data
+    //             })
+    //         }
+    //     })
+    // }
 
 
     getOption() {
@@ -115,6 +115,9 @@ export default class MonitorData extends React.Component {
     // 提交表单
     handleSubmit=(params)=>{
        
+        params.sensorItemId = qs.parse(params.sensorItemId) //
+        params.dataRange = qs.parse(params.dataRange)
+        console.log(params)
         axios.ajax({
             url:'/getMonitorData',
             method:'post',

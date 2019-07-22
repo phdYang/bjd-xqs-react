@@ -25,12 +25,13 @@ export default class Axios{
         let baseApi = 'http://localhost:8080/bjd-xqs'
 
         console.log(options.data.params)
+        console.log(options.data)
         return new Promise((resolve,reject)=>{
             axios({
                 url: options.url,
                 method: options.method,
                 baseURL: baseApi,
-                timeout: 5000,
+                timeout: 60000,
                 params:(options.data && options.data.params) || ''
             }).then((response)=>{
                 if(response.status == '200'){
@@ -49,5 +50,7 @@ export default class Axios{
             })
         });
     }
+
+
 
 }
