@@ -25,10 +25,10 @@ const menuList = [
                 title: '监测数据查询',
                 key: '/MonitorDataManager/ShowMonitorData'
             },
-            {
-                title: '监测数据检验',
-                key: '/MonitorDataManager/DataCheck'
-            }
+            // {
+            //     title: '监测数据检验',
+            //     key: '/MonitorDataManager/DataCheck'
+            // }
         ]
     },
     {
