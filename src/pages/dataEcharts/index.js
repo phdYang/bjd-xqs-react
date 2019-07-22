@@ -23,7 +23,8 @@ export default class MonitorData extends React.Component {
     state = {
         list:[],
         isVisible:false,
-        treeSensorList:[]
+        treeSensorList:[],
+        showLoad:false
     }
 
     componentWillMount(){
@@ -114,7 +115,9 @@ export default class MonitorData extends React.Component {
 
     // 提交表单
     handleSubmit=(params)=>{
-       
+        this.setState({
+            showLoad:true
+        })
         params.sensorItemId = qs.parse(params.sensorItemId) //
         params.dataRange = qs.parse(params.dataRange)
         console.log(params)
@@ -130,8 +133,10 @@ export default class MonitorData extends React.Component {
                     item.key = index;
                 })
                 this.setState({
-                    list: res.result.data
+                    list: res.result.data,
+                    showLoad:false
                 })
+
             }
         })
 
@@ -148,6 +153,7 @@ export default class MonitorData extends React.Component {
                         option={this.getOption()}
                         notMerge={true}
                         lazyUpdate={true}
+                        showLoading={this.state.showLoad}
                         style={{
                         height: 700
                     }}/>
