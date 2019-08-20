@@ -38,24 +38,24 @@ const menuList = [
             {
                 title:'监测数据预测',
                 key:'/DecisionManager/PredictManager',
-                children:[
-                    {
-                        title:'梁端伸缩位移预测',
-                        key:'/DecisionManager/PredictManager/showLDSSPredictData'
-                    },
-                    {
-                        title:'钢轨纵向爬行预测',
-                        key:'/DecisionManager/PredictManager/showGGZXPredictData'
-                    },
-                    {
-                        title:'尖轨尖端伸缩预测',
-                        key:'/DecisionManager/PredictManager/showJGJDPredictData'
-                    },
-                    {
-                        title:'钢轨附加应力预测',
-                        key:'/DecisionManager/PredictManager/showGGFJPredictData'
-                    }
-                ]
+                // children:[
+                //     {
+                //         title:'梁端伸缩位移预测',
+                //         key:'/DecisionManager/PredictManager/showLDSSPredictData'
+                //     },
+                //     {
+                //         title:'钢轨纵向爬行预测',
+                //         key:'/DecisionManager/PredictManager/showGGZXPredictData'
+                //     },
+                //     {
+                //         title:'尖轨尖端伸缩预测',
+                //         key:'/DecisionManager/PredictManager/showJGJDPredictData'
+                //     },
+                //     {
+                //         title:'钢轨附加应力预测',
+                //         key:'/DecisionManager/PredictManager/showGGFJPredictData'
+                //     }
+                // ]
             },
             { 
                 title:'数据异常报警',

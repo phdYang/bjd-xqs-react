@@ -15,7 +15,7 @@ import DeviceDetail from './pages/device/detail'
 import SensorEdit from './pages/sensor/edit'
 import SensorDetail from './pages/sensor/detail'
 import SensorAdd from './pages/sensor/add'
-import PredictionLdss from './pages/prediction/ldss'
+import Prediction from './pages/PredictManager/'
 import PredictionJgjd from './pages/prediction/jgjd'
 import PredictionGgzx from './pages/prediction/ggzx'
 import PredictionGgfj from './pages/prediction/ggfj'
@@ -45,10 +45,10 @@ export default class IRouter extends React.Component{
                                     <Route path='/AccountManager/sensorAdd' component={SensorAdd}/>
                                     <Route path='/AccountManager/sensorEdit/:id' component={SensorEdit}/>
                                     <Route path='/AccountManager/sensorDetail/:id' component={SensorDetail}/>
-                                    <Route path='/DecisionManager/PredictManager/showLDSSPredictData' component={PredictionLdss}/>
-                                    <Route path='/DecisionManager/PredictManager/showGGZXPredictData' component={PredictionGgzx}/>
+                                    <Route path='/DecisionManager/PredictManager' component={Prediction}/>
+                                    {/* <Route path='/DecisionManager/PredictManager/showGGZXPredictData' component={PredictionGgzx}/>
                                     <Route path='/DecisionManager/PredictManager/showJGJDPredictData' component={PredictionJgjd}/>
-                                    <Route path='/DecisionManager/PredictManager/showGGFJPredictData' component={PredictionGgfj}/>
+                                    <Route path='/DecisionManager/PredictManager/showGGFJPredictData' component={PredictionGgfj}/> */}
                                     <Route path='/DecisionManager/AlarmManager/ShowAlarmSetting' component={AlarmSetting}/>
                                     <Redirect to="/home"/>
                                 </Switch>

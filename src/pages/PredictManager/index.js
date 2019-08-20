@@ -1,7 +1,7 @@
 import React from 'react';
-import {Card,Form, Input, Button, DatePicker, Modal, TreeSelect} from 'antd';
+import {Card,Form, Input, Button, DatePicker, Modal, TreeSelect,Select,Upload,message,Icon} from 'antd';
 import axios from './../../axios'
-import qs from 'qs'
+
 import ReactEcharts from 'echarts-for-react';
 // import echarts from 'echarts'
 import echarts from 'echarts/lib/echarts'
@@ -17,16 +17,20 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 const {RangePicker} =  DatePicker;
+
+
+
 export default class MonitorData extends React.Component {
 
     state = {
         list:[],
         isVisible:false,
-        treeSensorList:[],
-        showLoad:false
+        treeSensorList:[]
     }
 
+    
     componentWillMount(){
         //this.getMonitorData();
         this.getTreeSensor();
@@ -49,22 +53,22 @@ export default class MonitorData extends React.Component {
         })
     }
 
-    // getMonitorData=()=>{
-    //     axios.ajax({
-    //         url:'/getMonitorData',
-    //         method:'post',
-    //         data:{}
-    //     }).then((res)=>{
-    //         if(res.code == 0){
-    //             res.result.data.map((item, index) => {
-    //                 item.key = index;
-    //             })
-    //             this.setState({
-    //                 list: res.result.data
-    //             })
-    //         }
-    //     })
-    // }
+    getMonitorData=()=>{
+        axios.ajax({
+            url:'/getMonitorData',
+            method:'post',
+            data:{}
+        }).then((res)=>{
+            if(res.code == 0){
+                res.result.data.map((item, index) => {
+                    item.key = index;
+                })
+                this.setState({
+                    list: res.result.data
+                })
+            }
+        })
+    }
 
 
     getOption() {
@@ -94,7 +98,7 @@ export default class MonitorData extends React.Component {
         console.log(yData)
         let option = {
             title: {
-				text: '铁路线桥隧状态数据显示'
+				text: '数据预测显示'
 		    },
             tooltip: {
                 trigger: 'axis'
@@ -113,14 +117,12 @@ export default class MonitorData extends React.Component {
         return option;
     }
 
+    
+      
+
     // 提交表单
     handleSubmit=(params)=>{
-        this.setState({
-            showLoad:true
-        })
-        params.sensorItemId = qs.parse(params.sensorItemId) //
-        params.dataRange = qs.parse(params.dataRange)
-        console.log(params)
+       
         axios.ajax({
             url:'/getMonitorData',
             method:'post',
@@ -133,27 +135,25 @@ export default class MonitorData extends React.Component {
                     item.key = index;
                 })
                 this.setState({
-                    list: res.result.data,
-                    showLoad:false
+                    list: res.result.data
                 })
-
             }
         })
 
     }
 
+    
     render() {
         return (
             <div>
                 <Card title="">
                     <FilterForm filterSubmit={this.handleSubmit} treeSensorList={this.state.treeSensorList}/>
                 </Card>
-                <Card title="数据展示" style={{marginTop:10}}>
+                <Card title="监测数据预测" style={{marginTop:10}}>
                     <ReactEcharts
                         option={this.getOption()}
                         notMerge={true}
                         lazyUpdate={true}
-                        showLoading={this.state.showLoad}
                         style={{
                         height: 700
                     }}/>
@@ -165,26 +165,47 @@ export default class MonitorData extends React.Component {
 
 class FilterForm extends React.Component{
 
+
     handleFilterSubmit=()=>{
         let fieldsValue = this.props.form.getFieldsValue();
-        const values = {
-            'sensorItemId':fieldsValue['sensorItemId'],
-            'dataRange':[
-                fieldsValue['dateRange'][0].format('YYYY-MM-DD'),
-                fieldsValue['dateRange'][1].format('YYYY-MM-DD'),
-            ]
-        }
-        this.props.filterSubmit(values);
+        
+        this.props.filterSubmit(fieldsValue);
     }
 
     reset=()=>{
         this.props.form.resetFields();
     }
 
+    //option
+    handleChange(value) {
+        console.log(`selected ${value}`);
+    }
+
+
     render(){
 
         const { getFieldDecorator } = this.props.form;
         const treeSensorList = this.props.treeSensorList || [];
+
+        //文件上传
+        const props = {
+            name: 'file',
+            action: 'http://localhost:8080/bjd-xqs/uploadFile',
+            headers: {
+                authorization: 'authorization-text',
+            },
+            onChange(info) {
+                console.log(info)
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    message.success(`${info.file.name} 上传成功`);
+                } else if (info.file.status === 'error') {
+                    message.error(`${info.file.name} file 上传失败.`);
+                }
+            },
+        };
 
         return (
             <Form layout="inline">
@@ -205,17 +226,21 @@ class FilterForm extends React.Component{
                         )
                     }
                 </FormItem>
-                <FormItem label="选择日期范围" >
-                    {
-                        getFieldDecorator('dateRange',{
-                            initialValue: ''
-                        })
-                        (
-                            <RangePicker 
-                                placeholder={['开始时间', '结束时间']}
-                            />
-                        )
-                    }
+                <FormItem>
+                    <Select defaultValue="最近一天" style={{ width: 120 }} onChange={this.handleChange}>
+                        <Option value="1">最近一天</Option>
+                        {/* <Option value="最近三天">最近三天</Option> */}
+                        <Option value="7">最近一周</Option>
+                        {/* <Option value="最近一月">最近一月</Option> */}
+                    </Select>
+                </FormItem>
+                <FormItem>
+                    
+                    <Upload {...props}>
+                        <Button>
+                            <Icon type="upload" />选择模型
+                        </Button>
+                    </Upload>
                 </FormItem>
                 <FormItem>
                     <Button type="primary" style={{ margin: '0 20px' }} onClick={this.handleFilterSubmit}>查询</Button>
