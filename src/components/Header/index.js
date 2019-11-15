@@ -56,10 +56,12 @@ class Header extends React.Component{
     render(){
 
         const menuType = this.props.menuType;
+
+        console.log(menuType)
         
         return (
             <div className="header">
-                <Row className="header-top">
+                {/* <Row className="header-top">
                     {
                         menuType?
                             <Col span="6" className="logo">
@@ -83,7 +85,27 @@ class Header extends React.Component{
                                 <span className="weather-detail">{this.state.city} | {this.state.weather} | {this.state.temperature} ℃</span>
                             </Col>
                         </Row>
-                    }
+                    } */}
+                
+                <Row className="header-top">
+                    <Col span="6" className="logo">
+                        <img src="/assets/logo-ant.svg" alt=""/>
+                        <span>通用后台管理系统</span>
+                    </Col>
+                    <Col span="18">
+                        <span>欢迎，{this.state.userName}</span>
+                        <a onClick={this.logout}>退出</a>
+                    </Col>
+                </Row>
+                <Row className="breadcrumb">
+                    <Col span="4" className="breadcrumb-title">
+                        {this.props.menuName}
+                    </Col>
+                    <Col span="20" className="weather">
+                        <span className="date">{this.state.sysTime}</span>
+                        <span className="weather-detail">{this.state.city} | {this.state.weather} | {this.state.temperature} ℃</span>
+                    </Col>
+                </Row>
             </div>
         )
     }
