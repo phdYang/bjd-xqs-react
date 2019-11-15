@@ -6,7 +6,7 @@ export default class Home extends React.Component{
 
     render(){
         return (
-            <div className="home-wrap" style={{backgroundImage: `url(${homeImg})` }}>
+            <div className="home-wrap" style={{backgroundImage: `url(${homeImg})` ,height: 700}}>
                 
             </div>
         )

@@ -57,7 +57,7 @@ class Header extends React.Component{
 
         const menuType = this.props.menuType;
 
-        console.log(menuType)
+        
         
         return (
             <div className="header">
@@ -89,8 +89,8 @@ class Header extends React.Component{
                 
                 <Row className="header-top">
                     <Col span="6" className="logo">
-                        <img src="/assets/logo-ant.svg" alt=""/>
-                        <span>通用后台管理系统</span>
+                        <img src="/assets/tt.jpg" alt=""/>
+                        <span>铁路线桥隧状态监测预警系统</span>
                     </Col>
                     <Col span="18">
                         <span>欢迎，{this.state.userName}</span>
